@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Order Status | Coffee Heaven</title>
+  <link rel="stylesheet" href="/assets/style.css">
+
+  <style>
+    .status-card{
+      background:#fff;
+      padding:20px;
+      margin:16px 0;
+      border-radius:14px;
+      box-shadow:0 6px 14px rgba(0,0,0,0.15);
+    }
+
+    .status-badge{
+      font-size:16px;
+      font-weight:bold;
+      padding:6px 14px;
+      border-radius:20px;
+      display:inline-block;
+      margin-top:6px;
+      color:#fff;
+    }
+
+    .Pending{ background:#999; }
+    .Preparing{ background:#e6a23c; }
+    .Served{ background:#67c23a; }
+    .Completed{ background:#409eff; }
+  </style>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+<div class="sidebar">
+  <h2>☕ Coffee Heaven</h2>
+  <a href="/home">Home</a>
+  <a href="/status">My Order 📦</a>
+  <a href="/">Logout</a>
+</div>
+
+<!-- ================= MAIN ================= -->
+<div class="main">
+  <section>
+    <h2>📦 My Order Status</h2>
+    <div id="statusBox"></div>
+  </section>
+</div>
+
+<script>
+/* ================= ROLE SAFETY ================= */
+const role = localStorage.getItem("role");
+if(role !== "customer"){
+  window.location.href = "/home";
+}
+
+/* ================= CUSTOMER DATA ================= */
+const customer = JSON.parse(localStorage.getItem("customer"));
+const statusBox = document.getElementById("statusBox");
+
+if(!customer || !customer.table){
+  statusBox.innerHTML = "<p>No customer data found.</p>";
+}else{
+  loadStatus();
+  setInterval(loadStatus, 5000);
+}
+
+/* ================= LOAD STATUS ================= */
+function loadStatus(){
+  fetch("/api/status/" + customer.table)
+    .then(res => res.json())
+    .then(data => {
+
+      statusBox.innerHTML = "";
+
+      if(!data || data.length === 0){
+        statusBox.innerHTML = "<p>No active orders yet ☕</p>";
+        return;
+      }
+
+      data.forEach(order => {
+
+        const itemsHTML = order.items
+          .map(i => `<li>${i.name} - ₹${i.price}</li>`)
+          .join("");
+
+        statusBox.innerHTML += `
+          <div class="status-card">
+            <p><b>Order ID:</b> #${order.id}</p>
+            <p><b>Table:</b> ${order.customer.table}</p>
+            <p><b>Time:</b> ${order.time}</p>
+
+            <p>
+              <b>Status:</b><br>
+              <span class="status-badge ${order.status}">
+                ${order.status}
+              </span>
+            </p>
+
+            <hr>
+
+            <b>Items:</b>
+            <ul>${itemsHTML}</ul>
+
+            <hr>
+
+            <strong>Total: ₹${order.total}</strong>
+          </div>
+        `;
+      });
+    })
+    .catch(() => {
+      statusBox.innerHTML = "<p>Error loading order status.</p>";
+    });
+}
+</script>
+
+</body>
+</html>

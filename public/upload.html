@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Menu Item | Coffee Heaven</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+
+<body class="login-page">
+
+  <div class="login-overlay">
+    <div class="login-box">
+
+      <h1>☕ Coffee Heaven</h1>
+      <p>Add New Menu Item</p>
+
+      <form action="/upload-image" method="POST" enctype="multipart/form-data">
+
+        <input type="text" name="name" placeholder="Item Name" required>
+
+        <input type="number" name="price" placeholder="Price (₹)" required>
+
+        <input type="text" name="desc" placeholder="Description" required>
+
+        <input type="file" name="image" accept="image/*" required>
+
+        <button type="submit">Upload Item</button>
+
+      </form>
+
+      <a href="/home" class="forgot">← Back to Menu</a>
+
+    </div>
+  </div>
+
+  <script>
+    // Frontend protection: only admin can stay here
+    if (localStorage.getItem("role") !== "admin") {
+      alert("Access denied! Admin only.");
+      window.location.href = "/home";
+    }
+  </script>
+
+</body>
+</html>

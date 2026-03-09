@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Order Status</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+
+<div class="sidebar">
+  <h2>☕ Coffee Heaven</h2>
+  <a href="/home">Menu</a>
+  <a href="/my-order">My Order</a>
+  <a href="/">Logout</a>
+</div>
+
+<div class="main">
+  <h2>📦 Your Order Status</h2>
+  <div id="orderBox"></div>
+</div>
+
+<script>
+const customer = JSON.parse(localStorage.getItem("customer"));
+
+fetch(`/api/my-order/${customer.name}`)
+  .then(r => r.json())
+  .then(order => {
+    if (!order) {
+      document.getElementById("orderBox").innerHTML = "<p>No order placed</p>";
+      return;
+    }
+
+    let items = order.items.map(i => `<li>${i.name} - ₹${i.price}</li>`).join("");
+    document.getElementById("orderBox").innerHTML = `
+      <p><b>Status:</b> ${order.status}</p>
+      <p><b>Table:</b> ${order.customer.table}</p>
+      <ul>${items}</ul>
+    `;
+  });
+</script>
+
+</body>
+</html>

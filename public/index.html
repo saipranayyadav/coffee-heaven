@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Coffee Heaven</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+<div class="sidebar">
+  <h2>☕ Coffee Heaven</h2>
+
+  <a href="/home">Home</a>
+
+  <!-- ADMIN ONLY -->
+  <a href="/upload" id="adminOnly">Add Item</a>
+  <a href="/orders" id="ordersOnly">Orders</a>
+
+  <!-- CUSTOMER ONLY -->
+  <a href="#" id="cartLink" onclick="openCart()">Cart 🛒</a>
+
+  <!-- ✅ FIXED: OPEN STATUS PAGE -->
+  <a href="/status" id="myOrderBtn">My Order 📦</a>
+
+  <a href="/" style="margin-top:20px;">Logout</a>
+</div>
+
+<!-- ================= MAIN ================= -->
+<div class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-overlay">
+      <h1>Coffee Heaven</h1>
+      <p>Fresh Coffee, Foods, Ice Creams & Waffles</p>
+    </div>
+  </div>
+
+  <!-- ☕ COFFEE -->
+  <section>
+    <h2 class="menu-heading">☕ Coffee</h2>
+    <div class="cards" id="coffeeMenu"></div>
+  </section>
+
+  <!-- 🍔 FOOD -->
+  <section>
+    <h2 class="menu-heading">🍔 Food</h2>
+    <div class="cards" id="foodMenu"></div>
+  </section>
+
+  <!-- 🍨 DESSERTS -->
+  <section>
+    <h2 class="menu-heading">🍨 Desserts</h2>
+    <div class="cards" id="dessertMenu"></div>
+  </section>
+
+</div>
+
+<!-- ================= MODAL ================= -->
+<div class="modal" id="modal">
+  <div class="modal-box" id="modalContent"></div>
+</div>
+
+<script src="/assets/script.js"></script>
+
+<script>
+/* ================= ROLE HANDLING ================= */
+const role = localStorage.getItem("role");
+
+// CUSTOMER VIEW
+if (role === "customer") {
+  document.getElementById("adminOnly").style.display = "none";
+  document.getElementById("ordersOnly").style.display = "none";
+}
+
+// ADMIN VIEW
+if (role === "admin") {
+  document.getElementById("cartLink").style.display = "none";
+  document.getElementById("myOrderBtn").style.display = "none";
+}
+
+/* ================= MENU LOAD (CATEGORY WISE) ================= */
+fetch("/api/menu")
+  .then(res => res.json())
+  .then(items => {
+    const coffeeDiv = document.getElementById("coffeeMenu");
+    const foodDiv = document.getElementById("foodMenu");
+    const dessertDiv = document.getElementById("dessertMenu");
+
+    items.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <img src="${item.image}">
+        <div class="card-content">
+          <h3>${item.name}</h3>
+          <p>₹${item.price}</p>
+
+          <button onclick='showDetails(${JSON.stringify(item)})'>
+            View Details
+          </button>
+
+          ${role === "customer"
+            ? `<button onclick="addToCart('${item.name}', ${item.price})">
+                Add to Cart
+              </button>`
+            : ""}
+        </div>
+      `;
+
+      if (item.category === "coffee") coffeeDiv.appendChild(card);
+      else if (item.category === "food") foodDiv.appendChild(card);
+      else if (item.category === "dessert") dessertDiv.appendChild(card);
+    });
+  });
+</script>
+
+</body>
+</html>

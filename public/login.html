@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Login | Coffee Heaven</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+
+<body class="login-page">
+
+  <div class="login-overlay">
+    <div class="login-box">
+
+      <h1>☕ Coffee Heaven</h1>
+      <p>Admin Login</p>
+
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+
+      <button onclick="login()">Login</button>
+
+      <a href="/" class="forgot">← Back to Role Selection</a>
+
+      <div id="error" class="error"></div>
+
+    </div>
+  </div>
+
+<script>
+function login(){
+  fetch("/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      username: document.getElementById("username").value,
+      password: document.getElementById("password").value
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data.success){
+      // mark admin role
+      localStorage.setItem("role", "admin");
+      window.location.href = "/home";
+    } else {
+      document.getElementById("error").innerText = "Invalid username or password";
+    }
+  });
+}
+</script>
+
+</body>
+</html>

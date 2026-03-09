@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Select Role | Coffee Heaven</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+
+<body class="login-page">
+
+  <div class="login-overlay">
+    <div class="login-box">
+
+      <h1>☕ Coffee Heaven</h1>
+      <p>Fresh Coffee, Foods & Desserts</p>
+
+      <button onclick="goAdmin()">Admin</button>
+
+      <button style="margin-top:12px;" onclick="goCustomer()">
+        Customer
+      </button>
+
+    </div>
+  </div>
+
+  <script>
+    function goAdmin(){
+      window.location.href = "/admin";
+    }
+
+    function goCustomer(){
+      window.location.href = "/customer";
+    }
+  </script>
+
+</body>
+</html>

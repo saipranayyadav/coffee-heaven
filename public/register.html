@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customer Details | Coffee Heaven</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+
+<body class="login-page">
+
+  <div class="login-overlay">
+    <div class="login-box">
+
+      <h1>☕ Coffee Heaven</h1>
+      <p>Enter Customer Details</p>
+
+      <form id="customerForm">
+
+        <input type="text" name="name" placeholder="Full Name" required>
+
+        <input type="tel" name="mobile" placeholder="Mobile Number" required>
+
+        <input type="email" name="email" placeholder="Email Address" required>
+
+        <input type="number" name="table" placeholder="Table Number" required>
+
+        <button type="submit">Continue to Menu</button>
+
+      </form>
+
+      <a href="/" class="forgot">← Back to Role Selection</a>
+
+    </div>
+  </div>
+
+<script>
+document.getElementById("customerForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  /* ================= SAVE ROLE ================= */
+  localStorage.setItem("role", "customer");
+
+  /* ================= CUSTOMER DATA ================= */
+  const customerData = {
+    name: this.name.value,
+    mobile: this.mobile.value,
+    email: this.email.value,
+    table: this.table.value
+  };
+
+  /* ================= SAVE LOCALLY (IMPORTANT) ================= */
+  localStorage.setItem("customer", JSON.stringify(customerData));
+
+  /* ================= SEND TO BACKEND ================= */
+  fetch("/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(customerData)
+  })
+  .then(() => {
+    // Redirect to menu after successful register
+    window.location.href = "/home";
+  });
+});
+</script>
+
+</body>
+</html>

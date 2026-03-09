@@ -1,0 +1,13 @@
+{
+  "name": "coffee-heaven",
+  "version": "1.0.0",
+  "description": "Complete Coffee Heaven Website with Login",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "multer": "^2.0.2"
+  }
+}
