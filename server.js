@@ -8,7 +8,7 @@ const PORT = 3000;
 /* ================= MIDDLEWARE ================= */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/assets", express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 /* ================= MULTER SETUP ================= */
 const storage = multer.diskStorage({
