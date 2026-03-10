@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Coffee Heaven</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/assets/style.css">
 </head>
 
 <body>
@@ -63,7 +63,7 @@
   <div class="modal-box" id="modalContent"></div>
 </div>
 
-<script src="script.js"></script>
+<script src="/assets/script.js"></script>
 
 <script>
 /* ================= ROLE HANDLING ================= */
@@ -82,9 +82,9 @@ if (role === "admin") {
 }
 
 /* ================= MENU LOAD (CATEGORY WISE) ================= */
-const items = menu;
-
-items.forEach(item => {
+fetch("/api/menu")
+  .then(res => res.json())
+  .then(items => {
     const coffeeDiv = document.getElementById("coffeeMenu");
     const foodDiv = document.getElementById("foodMenu");
     const dessertDiv = document.getElementById("dessertMenu");

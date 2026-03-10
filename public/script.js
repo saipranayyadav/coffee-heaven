@@ -1,38 +1,6 @@
 /* ================= ROLE CHECK ================= */
 
 const role = localStorage.getItem("role");
-const menu = [
-  {
-    name: "Cappuccino",
-    price: 120,
-    image: "images/cappuccino.jpg",
-    category: "coffee"
-  },
-  {
-    name: "Latte",
-    price: 110,
-    image: "images/latte.jpg",
-    category: "coffee"
-  },
-  {
-    name: "Burger",
-    price: 150,
-    image: "images/burger.jpg",
-    category: "food"
-  },
-  {
-    name: "Pizza",
-    price: 200,
-    image: "images/pizza.jpg",
-    category: "food"
-  },
-  {
-    name: "Ice Cream",
-    price: 90,
-    image: "images/icecream.jpg",
-    category: "dessert"
-  }
-];
 
 // Hide admin-only buttons for customers
 if (role !== "admin") {
