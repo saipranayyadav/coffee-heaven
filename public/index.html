@@ -82,9 +82,9 @@ if (role === "admin") {
 }
 
 /* ================= MENU LOAD (CATEGORY WISE) ================= */
-fetch("/api/menu")
-  .then(res => res.json())
-  .then(items => {
+const items = menu;
+
+items.forEach(item => {
     const coffeeDiv = document.getElementById("coffeeMenu");
     const foodDiv = document.getElementById("foodMenu");
     const dessertDiv = document.getElementById("dessertMenu");
