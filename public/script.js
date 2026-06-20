@@ -18,7 +18,7 @@ if (role === "admin") {
   if (myOrderBtn) myOrderBtn.style.display = "none";
 }
 
-/* ================= CART & ORDER LOGIC ================= */
+/* ================= CART & ORDER LOGIC c0-3 ================= */
 
 let cart = [];
 
@@ -87,7 +87,7 @@ function placeOrder() {
     });
 }
 
-/* ================= MENU FETCH (CATEGORY WISE) ================= */
+/* ================= MENU FETCH (CATEGORY WISE)CO-4 ================= */
 
 fetch("/api/menu")
   .then(res => res.json())
